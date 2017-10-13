@@ -1,6 +1,5 @@
 # stardust
-Best group best project.
-A test.
+Best grup best project.
 
 testing
 
