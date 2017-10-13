@@ -1,18 +1,18 @@
 import React from 'react';
+import Cluster from './Cluster.jsx';
+import Telescope from './Telescope.jsx';
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      
+
     };
   }
 
   render() {
     return (
-      <div>
-        <button>{'HELLO'}</button>
-      </div>
+      <button>HELLO</button>
     );
   }
 }
