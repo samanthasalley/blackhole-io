@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const bodyParser = require('body-parser');
 const app = express();
-var TodoList = require('./model/todo_items.js');
 
 // var mongoose = require('mongoose');
 // var mongoDB = 'mongodb://admin:password@ds115045.mlab.com:15045/todo';
