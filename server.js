@@ -24,15 +24,23 @@ app.use(express.static(__dirname + '/www'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
+// /api/todos output in the form of 
+/*
+[
+    "build stardust",
+    "have a dance party"
+]
+*/
 app.get('/api/todos', (req, res, next) => {
   let results;
   // Get a Postgres client from the connection pool
   pg.connect(connectionString, (err, client, done) => {
     // Handle connection errors
-    if(err) {
+    if (err) {
       done();
       console.log(err);
-      return res.status(500).json({success: false, data: err});
+      return res.status(500).json({ success: false, data: err });
     }
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM "Todo";');
@@ -48,48 +56,71 @@ app.get('/api/todos', (req, res, next) => {
   });
 });
 
+// /api/cal output in the form of
+/*
+[
+  {
+      "_id": 1,
+      "month": 10,
+      "day": 1,
+      "events": ""
+  },
+  {
+      "_id": 2,
+      "month": 10,
+      "day": 2,
+      "events": ""
+  },
+  [...]
+]
+*/
 app.get('/api/cal', (req, res, next) => {
   const results = [];
-  // Get a Postgres client from the connection pool
   pg.connect(connectionString, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
+    if (err) {
       done();
       console.log(err);
-      return res.status(500).json({success: false, data: err});
+      return res.status(500).json({ success: false, data: err });
     }
-    // SQL Query > Select Data
     const query = client.query('SELECT * FROM "Cal";');
-    // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
     });
-    // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
       return res.json(results);
     });
   });
 });
+
+
+// /api/space output in the form of
+/*
+{
+  "_id": 1,
+  "coord_x": [
+      50,
+      51
+  ],
+  "coord_y": [
+      52,
+      54
+  ]
+}
+*/
 
 app.get('/api/space', (req, res, next) => {
   let results;
-  // Get a Postgres client from the connection pool
   pg.connect(connectionString, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
+    if (err) {
       done();
       console.log(err);
-      return res.status(500).json({success: false, data: err});
+      return res.status(500).json({ success: false, data: err });
     }
-    // SQL Query > Select Data
     const query = client.query('SELECT * FROM "Space";');
-    // Stream results back one row at a time
     query.on('row', (row) => {
-      //results = [row.coord_x, row.coord_y];
       results = row;
     });
-    // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
       return res.json(results);
@@ -97,36 +128,38 @@ app.get('/api/space', (req, res, next) => {
   });
 });
 
+// PUT /api/space
+/*
+Input Body: 
+{
+    coords_x = [1,2,3,4,5,...],
+    coords_y = [1,2,3,4,5,...]
+}
+*/
+
 app.put('/api/space', (req, res, next) => {
   let results;
-  // Grab data from http request
-  const data = {coords_x: req.body.coords_x, coords_y: req.body.coords_y};
-  // Get a Postgres client from the connection pool
+  const data = { coords_x: req.body.coords_x, coords_y: req.body.coords_y };
   pg.connect(connectionString, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
+    if (err) {
       done();
       console.log(err);
-      return res.status(500).json({success: false, data: err});
+      return res.status(500).json({ success: false, data: err });
     }
-    // SQL Query > Update Data
     client.query('UPDATE "Space" SET coord_x=($1), coord_y=($2) WHERE _id=($3)',
-    [data.coords_x, data.coords_y, 1]);
-    // SQL Query > Select Data
+      [data.coords_x, data.coords_y, 1]);
     const query = client.query('SELECT * FROM "Space";');
-    // Stream results back one row at a time
     query.on('row', (row) => {
       results = row;
     });
-    // After all data is returned, close connection and return results
-    query.on('end', function() {
+    query.on('end', function () {
       done();
       return res.json(results);
     });
   });
 });
 
-const server = app.listen(3000, function() {
+const server = app.listen(3000, function () {
   const host = server.address().address;
   const port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);
