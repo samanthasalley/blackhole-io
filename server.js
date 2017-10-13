@@ -49,4 +49,10 @@ io.sockets.on('connection', newConnection);
 
 function newConnection(socket) {
   console.log('new connection: ' + socket.id);
+  socket.on('mouse', mouseMsg);
+
+  function mouseMsg(mousePosition) {
+    socket.broadcast.emit('mouse', mousePosition);
+    console.log(mousePosition);
+  }
 }

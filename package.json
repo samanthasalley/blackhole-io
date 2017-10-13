@@ -32,6 +32,7 @@
     "p5": "^0.5.16",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-p5-wrapper": "0.0.4",
     "socket.io": "^2.0.3",
     "webpack": "^3.0.0",
     "webpack-dev-middleware": "^1.11.0"
