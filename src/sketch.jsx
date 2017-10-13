@@ -3,6 +3,8 @@ import React from 'react';
 export default function sketch (p) {
 
   let socket;
+  let mouseArrX = [];
+  let mouseArrY = [];
 
    p.setup = function () {
      p.createCanvas(600, 400, p.WEBGL);
@@ -14,6 +16,12 @@ export default function sketch (p) {
   function newDrawing(mousePosition) {
     let mouseX = mousePosition.x;
     let mouseY = mousePosition.y;
+    //save to mouse position arrays
+
+    mouseArrX.push(mouseX);
+    mouseArrY.push(mouseX);
+    console.log(mouseArrX);
+
     p.ellipse(mouseX, mouseY, 10, 10);
     p.noStroke();
   }
@@ -23,14 +31,19 @@ export default function sketch (p) {
     let mouseX = p.mouseX -300;
     let mouseY = p.mouseY -195;
 
+    //save to mouse position arrays
+    mouseArrX.push(mouseX);
+    mouseArrY.push(mouseX);
+    console.log(mouseArrX);
+
     // create array holding current coordinates 
     let mousePosition = {
       x: mouseX,
       y: mouseY
     }
     console.log("sending" + mousePosition);
-
     socket.emit('mouse', mousePosition);
+
     //draw at coordinates with size #,# size ellipse 
     p.ellipse(mouseX, mouseY, 10, 10);
     p.noStroke(); //makes stroke white somehow
