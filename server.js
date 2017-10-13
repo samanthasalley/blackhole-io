@@ -48,9 +48,10 @@ const io = socket(server);
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket) {
-  console.log('new connection: ' + socket.id);
-  socket.on('mouse', mouseMsg);
-
+  console.log('new connection: ' + socket.id); // logs when new window is opened
+  
+  socket.on('mouse', mouseMsg); // listens for any 'mouse' event
+  // calls this when 'mouse' event is heard
   function mouseMsg(mousePosition) {
     socket.broadcast.emit('mouse', mousePosition);
     console.log(mousePosition);

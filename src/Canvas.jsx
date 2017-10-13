@@ -6,23 +6,13 @@ class Canvas extends React.Component {
   
   constructor(props) {
     super(props);
-    // this.state = {
-    //   mousePositions: []
-    // };
-    // this.updateMousePositions = this.updateMousePositions.bind(this);
   }
-
-  // updateMousePositions() {
-    
-  // }
 
   render() {
      
     return (
       <div>    
-        <P5Wrapper
-        sketch={sketch} />
-       
+        <P5Wrapper sketch={sketch} />
       </div>
     );
   }
