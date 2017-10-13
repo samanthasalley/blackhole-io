@@ -4,8 +4,10 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const bodyParser = require('body-parser');
 const app = express();
+const socket = require('socket.io');
 const pg = require('pg');
 const connectionString = 'postgres://zyfrobhu:NL5fpVCjHv9oTkrS-D_8Lz5yLK2kD8qY@stampy.db.elephantsql.com:5432/zyfrobhu';
+
 
 const compiler = webpack(webpackConfig);
 
@@ -164,3 +166,18 @@ const server = app.listen(3000, function () {
   const port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);
 });
+
+// socket.io stuff
+const io = socket(server);
+io.sockets.on('connection', newConnection);
+
+function newConnection(socket) {
+  console.log('new connection: ' + socket.id); // logs when new window is opened
+  
+  socket.on('mouse', mouseMsg); // listens for any 'mouse' event
+  // calls this when 'mouse' event is heard
+  function mouseMsg(mousePosition) {
+    socket.broadcast.emit('mouse', mousePosition);
+    console.log(mousePosition);
+  }
+}

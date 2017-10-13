@@ -4,6 +4,7 @@ import App from './App.jsx';
 
 document.addEventListener('DOMContentLoaded', function() {
   render(
+
     <App />,
     document.getElementById('root')
   );
