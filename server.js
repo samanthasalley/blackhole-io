@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const bodyParser = require('body-parser');
 const app = express();
+const socket = require('socket.io');
+
 
 // var mongoose = require('mongoose');
 // var mongoDB = 'mongodb://admin:password@ds115045.mlab.com:15045/todo';
@@ -40,3 +42,11 @@ const server = app.listen(3000, function() {
   const port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);
 });
+
+// socket.io stuff
+const io = socket(server);
+io.sockets.on('connection', newConnection);
+
+function newConnection(socket) {
+  console.log('new connection: ' + socket.id);
+}
