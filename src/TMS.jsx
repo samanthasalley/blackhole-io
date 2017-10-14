@@ -52,7 +52,7 @@ class TMS extends React.Component {
        width: '70%',
        margin: 20,
        backgroundColor: purple50,
-       float: 'right',
+       float: 'left',
      }
     return (
       <Paper style={tmsStyle} zDepth={5}>

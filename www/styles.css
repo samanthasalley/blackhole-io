@@ -16,11 +16,11 @@ body{
 
 #canvasWrapper {
   position: center;
+  padding-left: 50px;
 }
 
 #canvas {
   position: relative;
-  top: 10%;
   width: 505px;
   height: 605px;
   left: 50%;
@@ -40,4 +40,15 @@ body{
 #TMS {
   padding-left: 50px;
 }
+
+#logo {
+  position: absolute;
+  height: 501px;
+  width: 501px;
+  top: 10%;
+  left: 40%;
+  background-image: url("http://i701.photobucket.com/albums/ww15/szmoon/stardust-logo_zpsxfhbtji6.jpg");
+  z-index: -1;
+}
+
 

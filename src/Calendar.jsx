@@ -5,7 +5,7 @@ import Canvas from './Canvas.jsx';
 import Paper from 'material-ui/Paper';
 import {grey300, purple50} from 'material-ui/styles/colors';
 
-class InfiniteSpace extends React.Component {
+class Calendar extends React.Component {
   render() {
 
     const infiniteStyle = {
@@ -17,15 +17,13 @@ class InfiniteSpace extends React.Component {
     }
 
     return (
-      
       <Paper style={infiniteStyle} zDepth={5}>
-        <div id="canvasWrapper">
-        <h1>INFINITE SPACE</h1>
-          <Canvas/>
-        </div>
+      <div id="TMS">
+      <h1>CALENDAR</h1>
+      </div>
       </Paper>
     );
   }
 }
 
-export default InfiniteSpace;
+export default Calendar;

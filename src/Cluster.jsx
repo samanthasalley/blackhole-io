@@ -18,8 +18,9 @@ class Cluster extends React.Component {
   render() {
 
     const clusterStyle = {
+    float: 'left',
     height: '100%',
-    width: 300,
+    width: '20%',
     margin: 20,
     textAlign: 'center',
     display: 'inline-block',
@@ -55,6 +56,7 @@ class Cluster extends React.Component {
           </Paper>
           </ul>
         </nav>
+        <div id="logo"></div>
        </Paper>
     )
   }
