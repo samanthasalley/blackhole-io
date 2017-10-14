@@ -19,7 +19,7 @@ class InfiniteSpace extends React.Component {
     return (
       <Paper style={infiniteStyle} zDepth={5}>
         <div id="canvasWrapper">
-          <Canvas />
+          <Canvas/>
         </div>
       </Paper>
     );
