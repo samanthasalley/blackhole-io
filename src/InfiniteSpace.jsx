@@ -7,7 +7,7 @@ class InfiniteSpace extends React.Component {
       <div id="canvasWrapper">
         <Canvas />
       </div>
-    )
+    );
   }
 }
 
