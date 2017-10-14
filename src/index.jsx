@@ -8,18 +8,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey300, cyan500} from 'material-ui/styles/colors';
 import TMS from './TMS.jsx';
 
-// const muiTheme = getMuiTheme({
-//   palette: {
-//     textColor: cyan500,
-//   },
-//   appBar: {
-//     color: grey300,
-//     textColor: cyan500,
-//     backgroundColor: cyan500,
-//     height: 500
-//   },
-// });
-
 document.addEventListener('DOMContentLoaded', function () {
   render(
    

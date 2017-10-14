@@ -9,38 +9,16 @@ body{
 }
 
 #root {
-  border: 1px solid cyan;
   height: 100%;
   width: 100%;
   z-index: 1
 }
 
-/* #clusterWrapper {
-  width: 300px;
-  height: 100%;
-  border: 1px solid blue;
-  background-color: magenta;
-  float: left;
-} */
-
 #canvasWrapper {
-  width: 705px;
-  height: 100%;
-  border: 1px solid blue;
-  background-color: green;
-  float: right;
-  z-index: 1;
+  position: center;
 }
 
-/* .material-icons {
-  border-color: blue;
-} */
-
 #TMS {
-  width: 705px;
-  height: 100%;
-  border: 1px solid blue;
-  background-color: green;
-  float: right;
+  padding-left: 50px;
 }
 
