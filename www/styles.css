@@ -35,3 +35,12 @@ body{
 /* .material-icons {
   border-color: blue;
 } */
+
+#TMS {
+  width: 705px;
+  height: 100%;
+  border: 1px solid blue;
+  background-color: green;
+  float: right;
+}
+

@@ -6,8 +6,7 @@ import InfiniteSpace from './InfiniteSpace.jsx';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey300, cyan500} from 'material-ui/styles/colors';
-// import injectTapEventPlugin from 'react-tap-event-plugin';
-
+import TMS from './TMS.jsx';
 
 // const muiTheme = getMuiTheme({
 //   palette: {
@@ -27,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
    <MuiThemeProvider muiTheme={getMuiTheme()}> 
     <BrowserRouter>
       <div>
-          <Route path='/' component={Cluster} />
-          <Route path='/InfiniteSpace' component={InfiniteSpace} />
+        <Route path='/' component={Cluster} />
+        <Route path='/InfiniteSpace' component={InfiniteSpace} />
+        <Route path='/tms' component={TMS} />
       </div>
     </BrowserRouter>
    </MuiThemeProvider>,

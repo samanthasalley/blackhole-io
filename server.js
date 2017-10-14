@@ -58,6 +58,35 @@ app.get('/api/todos', (req, res, next) => {
   });
 });
 
+app.post('/api/todos', (req, res, next) => {
+  let results;
+  const data = req.body.data;
+  console.log(data);
+  pg.connect(connectionString, (err, client, done) => {
+    if (err) {
+      done();
+      console.log(err);
+      return res.status(500).json({ success: false, data: err });
+    }
+
+    client.query('UPDATE "Todo" SET item = ($2) WHERE _id=($1)',
+      [1, data]);
+    
+    const query = client.query('SELECT * FROM "Todo";');
+    query.on('row', (row) => {
+      results = row;
+    });
+    query.on('end', function () {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+
+
+
+
 // /api/cal output in the form of
 /*
 [
@@ -130,7 +159,7 @@ app.get('/api/space', (req, res, next) => {
   });
 });
 
-// PUT /api/space
+// PUT /api/update/space
 /*
 Input Body: 
 {
@@ -139,9 +168,9 @@ Input Body:
 }
 */
 
-app.put('/api/space', (req, res, next) => {
+app.post('/api/update/space', (req, res, next) => {
   let results;
-  const data = { coords_x: req.body.coords_x, coords_y: req.body.coords_y };
+  // const data = { coords_x: req.body.coords_x, coords_y: req.body.coords_y };
   pg.connect(connectionString, (err, client, done) => {
     if (err) {
       done();
@@ -149,7 +178,29 @@ app.put('/api/space', (req, res, next) => {
       return res.status(500).json({ success: false, data: err });
     }
     client.query('UPDATE "Space" SET coord_x=($1), coord_y=($2) WHERE _id=($3)',
-      [data.coords_x, data.coords_y, 1]);
+      [mouseXPosArray, mouseYPosArray, 1]);
+    const query = client.query('SELECT * FROM "Space";');
+    query.on('row', (row) => {
+      results = row;
+    });
+    query.on('end', function () {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+// empty out space database
+app.post('/api/clear/space', (req, res, next) => {
+  let results;
+  pg.connect(connectionString, (err, client, done) => {
+    if (err) {
+      done();
+      console.log(err);
+      return res.status(500).json({ success: false, data: err });
+    }
+    client.query('UPDATE "Space" SET coord_x=($1), coord_y=($2) WHERE _id=($3)',
+      [[], [], 1]);
     const query = client.query('SELECT * FROM "Space";');
     query.on('row', (row) => {
       results = row;
@@ -169,6 +220,8 @@ const server = app.listen(3000, function () {
 
 // socket.io stuff
 const io = socket(server);
+const mouseXPosArray = [];
+const mouseYPosArray = [];
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket) {
@@ -178,6 +231,9 @@ function newConnection(socket) {
   // calls this when 'mouse' event is heard
   function mouseMsg(mousePosition) {
     socket.broadcast.emit('mouse', mousePosition);
-    console.log(mousePosition);
+    // console.log(mousePosition);
+    mouseXPosArray.push(mousePosition[0]);
+    mouseYPosArray.push(mousePosition[1]);
+    console.log(mouseXPosArray, mouseYPosArray);
   }
 }
