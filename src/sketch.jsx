@@ -1,9 +1,9 @@
 import React from 'react';
 
 export default function sketch (p) {
+  console.log(p);
   let socket;
-  let mouseArrX = [];
-  let mouseArrY = [];
+  // let mouseArr = [];
 
    p.setup = function () {
     //  canvas setup
@@ -20,9 +20,9 @@ export default function sketch (p) {
     p.noStroke();
 
     //save to mouse position arrays
-    mouseArrX.push(x);
-    mouseArrY.push(y);
-    console.log(mouseArrX);
+    this.props.updatePosition([x,y]);
+    // mouseArr.push([x,y]);
+    // console.log(mouseArr);
   }
 
   // function called when socket recieves info from other users' drawing
@@ -46,13 +46,6 @@ export default function sketch (p) {
     // draw line with current x/y 
     drawLine(mouseX, mouseY);
    };
-
-
-  //  return (
-  //   <button> Boo </button>
-  //  );
-  
-
 };
 
 
