@@ -48,7 +48,7 @@ Output:
 }
 
 
-===============THIS IS NOT UP TO DATE, POST REQUESTS ARE DIFFERENT NOW THX
+=============== BELOW IS NOT UP TO DATE, POST REQUESTS ARE DIFFERENT NOW THX
 #### POST /api/space
 Input Body: 
 {
