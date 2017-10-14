@@ -6,6 +6,8 @@ import Paper from 'material-ui/Paper';
 import {grey300, purple50} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import Create from 'material-ui/svg-icons/content/create';
+import List from 'material-ui/svg-icons/action/list';
+import Cal from 'material-ui/svg-icons/action/date-range';
 
 class Cluster extends React.Component {
   constructor() {
@@ -44,8 +46,13 @@ class Cluster extends React.Component {
             <Link to='/InfiniteSpace'><Create/></Link>
           </Paper>
           <br></br>
-            <Link to='/calendar'>Calendar</Link>
-            <Link to='/tms'>TMS</Link>
+          <Paper style={linkStyle} zDepth={1}>
+            <Link to='/calendar'><Cal/></Link>
+          </Paper>
+          <br></br>
+          <Paper style={linkStyle} zDepth={1}>
+            <Link to='/tms'><List/></Link>
+          </Paper>
           </ul>
         </nav>
        </Paper>
