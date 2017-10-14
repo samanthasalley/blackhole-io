@@ -1,0 +1,32 @@
+body{
+  background: url("https://www.nasa.gov/sites/default/files/thumbnails/image/iss052e056122.jpg");
+  background-size: 100%;
+  background-position:center;
+  background: cover;
+}
+
+#root {
+  border: 1px solid cyan;
+  height: 100%;
+  width: 100%;
+}
+
+#clusterWrapper {
+  width: 300px;
+  height: 100%;
+  border: 1px solid blue;
+  background-color: magenta;
+  float: left;
+}
+
+#canvasWrapper {
+  width: 705px;
+  height: 100%;
+  border: 1px solid blue;
+  background-color: green;
+  float: right;
+}
+
+
+
+
