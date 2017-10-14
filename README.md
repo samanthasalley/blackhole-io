@@ -5,9 +5,10 @@ testing!!!!!!!
 
 #BuJo
 
-##Server 
-###Routes
-####GET /api/todos
+## Server Routes
+
+#### GET /api/todos
+
 Output:
 [
     "build stardust",
