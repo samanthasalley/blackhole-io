@@ -6,7 +6,7 @@ const ToDoList = ({ tasks, remove }) => {
   // for (let x = 0; x < data; x++) {
   //   toDos.push(<Task task={task} key={task.id} remove={remove} />
   // }
-  const toDoItem = tasks.map(task => <Task task={task} key={task.id} remove={remove} />);
+  const toDoItem = tasks.map(task => <Task task={task} remove={remove} />);
   return (
     <ul>{toDoItem}</ul>
   );

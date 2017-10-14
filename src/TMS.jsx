@@ -11,6 +11,7 @@ class TMS extends React.Component {
 
     this.removeTask = this.removeTask.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.updateData = this.updateData.bind(this);
   }
 
   componentWillMount() {
@@ -21,15 +22,27 @@ class TMS extends React.Component {
 
   addTask(todo) {
     console.log(todo);
-    const task = { text: todo, id: this.state.data.length };
+    const task = todo;
     const data = [...this.state.data, task];
-    this.setState({ data });
+    this.setState({ data: data }, this.updateData);
   }
 
-  removeTask(id) {
-    const remaining = this.state.data.filter(task => task.id !== id);
-    this.setState({ data: remaining });
+  removeTask(task) {
+    console.log(task);
+    let data = this.state.data;
+    data.splice(data.indexOf(task),1);
+    this.setState({ data: data }, this.updateData);
   }
+
+  updateData() {
+    let data = this.state;
+    console.log(data);
+    fetch('/api/todos', {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data) });
+  }
+  
 
   render() {
     return (

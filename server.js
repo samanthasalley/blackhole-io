@@ -58,6 +58,35 @@ app.get('/api/todos', (req, res, next) => {
   });
 });
 
+app.post('/api/todos', (req, res, next) => {
+  let results;
+  const data = req.body.data;
+  console.log(data);
+  pg.connect(connectionString, (err, client, done) => {
+    if (err) {
+      done();
+      console.log(err);
+      return res.status(500).json({ success: false, data: err });
+    }
+
+    client.query('UPDATE "Todo" SET item = ($2) WHERE _id=($1)',
+      [1, data]);
+    
+    const query = client.query('SELECT * FROM "Todo";');
+    query.on('row', (row) => {
+      results = row;
+    });
+    query.on('end', function () {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+
+
+
+
 // /api/cal output in the form of
 /*
 [
