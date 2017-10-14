@@ -4,7 +4,7 @@ const AddToDo = ({ addTask }) => {
   let input;
   return (
     <div>
-      <input ref={(node) => { input = node; }} />
+      <input ref={(node) => { input = node; }}/>
       <button onClick={() => {
         addTask(input.value);
         input.value = '';
@@ -17,3 +17,5 @@ const AddToDo = ({ addTask }) => {
 };
 
 export default AddToDo;
+
+
