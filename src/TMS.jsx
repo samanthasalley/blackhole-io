@@ -13,7 +13,14 @@ class TMS extends React.Component {
     this.addTask = this.addTask.bind(this);
   }
 
+  componentWillMount() {
+    fetch('/api/todos')
+      .then(response => response.json())
+      .then(data => this.setState({ data: data }));
+  }
+
   addTask(todo) {
+    console.log(todo);
     const task = { text: todo, id: this.state.data.length };
     const data = [...this.state.data, task];
     this.setState({ data });
