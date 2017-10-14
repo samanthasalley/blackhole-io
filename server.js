@@ -201,6 +201,8 @@ app.post('/api/clear/space', (req, res, next) => {
     }
     client.query('UPDATE "Space" SET coord_x=($1), coord_y=($2) WHERE _id=($3)',
       [[], [], 1]);
+    mouseXPosArray = [];
+    mouseYPosArray = [];
     const query = client.query('SELECT * FROM "Space";');
     query.on('row', (row) => {
       results = row;
@@ -220,8 +222,8 @@ const server = app.listen(3000, function () {
 
 // socket.io stuff
 const io = socket(server);
-const mouseXPosArray = [];
-const mouseYPosArray = [];
+let mouseXPosArray = [];
+let mouseYPosArray = [];
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket) {

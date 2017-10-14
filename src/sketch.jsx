@@ -6,7 +6,7 @@ export default function sketch(p) {
   console.log('sketch rendered');
   p.setup = function () {
     //  canvas setup
-    p.createCanvas(600, 400, p.WEBGL);
+    p.createCanvas(500, 600, p.WEBGL);
     p.background(50);
 
     //draw what's already in database
@@ -48,8 +48,8 @@ export default function sketch(p) {
   // function when user creates drawing
   p.mouseDragged = function () {
     // p5-wrapper p.mouseX/Y are offset for some reason, so declaring new vars for position 
-    let mouseX = p.mouseX - 300;
-    let mouseY = p.mouseY - 195;
+    let mouseX = p.mouseX - 250;
+    let mouseY = p.mouseY - 300;
 
     // array to send for socket
     let mousePosition = [mouseX, mouseY];

@@ -1,6 +1,7 @@
 import React from 'react';
 import P5Wrapper from 'react-p5-wrapper';
 import sketch from './sketch.jsx';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Canvas extends React.Component {
 
@@ -49,12 +50,12 @@ class Canvas extends React.Component {
   render() {
 
     return (
-      <div>
+      <div id="canvas">
         <P5Wrapper
           sketch={sketch}
         />
-        <button onClick={this.saveBoard}>Save Infinite Space</button>
-        <button onClick={this.clearBoard}>Clear Infinite Space</button>
+          <RaisedButton className="canvas-button" label="Save" primary={true} onClick={this.saveBoard} />
+          <RaisedButton className="canvas-button" label="Clear" primary={true} onClick={this.clearBoard} />
       </div>
     );
   }

@@ -8,7 +8,7 @@ class InfiniteSpace extends React.Component {
     return (
       <MuiThemeProvider>
         <div id="canvasWrapper">
-          <Canvas />
+          <Canvas/>
         </div>
       </MuiThemeProvider>
     );

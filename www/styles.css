@@ -32,6 +32,21 @@ body{
   z-index: 1;
 }
 
+#canvas {
+  position: relative;
+  top: 10%;
+  width: 505px;
+  height: 605px;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%);
+}
+.canvas-button {
+  position: relative;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
 /* .material-icons {
   border-color: blue;
 } */
