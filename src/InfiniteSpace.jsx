@@ -1,21 +1,14 @@
 import React from 'react';
 import Canvas from './Canvas.jsx';
 
-class App extends React.Component {
-  
-  constructor() {
-    super();
-    this.state = {
-    };
-  }
-
+class InfiniteSpace extends React.Component {
   render() {
     return (
-      <div>
+      <div id="canvasWrapper">
         <Canvas />
       </div>
     );
   }
 }
 
-export default App;
+export default InfiniteSpace;
