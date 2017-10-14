@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Cluster from './Cluster.jsx';
 import InfiniteSpace from './InfiniteSpace.jsx';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 
 
 document.addEventListener('DOMContentLoaded', function () {
