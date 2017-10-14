@@ -1,26 +1,39 @@
 import React from 'react';
 
-export default function sketch (p) {
-  console.log(p);
+export default function sketch(p) {
   let socket;
   // let mouseArr = [];
-
-   p.setup = function () {
+  console.log('sketch rendered');
+  p.setup = function () {
     //  canvas setup
-     p.createCanvas(600, 400, p.WEBGL);
-     p.background(50);
-    // socket listening for any broadcast 'mouse' events
-     socket = io.connect('http://localhost:3000');
-     socket.on('mouse', otherDrawing); //calls func when hears broadcast
-   };
+    p.createCanvas(600, 400, p.WEBGL);
+    p.background(50);
 
-  function drawLine(x,y) {
+    //draw what's already in database
+    fetch('/api/space')
+      .then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+        let {coord_x, coord_y} = data;
+        for(let i = 0; i < coord_x.length; i += 1) {
+          drawLine(coord_x[i], coord_y[i]);
+        }
+      });
+
+    // socket listening for any broadcast 'mouse' events
+    socket = io.connect('http://localhost:3000');
+    socket.on('mouse', otherDrawing); //calls func when hears broadcast
+  };
+
+  function drawLine(x, y) {
     // uses x/y coords with size #/# ellipse to draw
     p.ellipse(x, y, 10, 10);
     p.noStroke();
+    console.log('drawing!');
 
     //save to mouse position arrays
-    this.props.updatePosition([x,y]);
+    // this.props.updatePosition([x,y]);
     // mouseArr.push([x,y]);
     // console.log(mouseArr);
   }
@@ -33,10 +46,10 @@ export default function sketch (p) {
   }
 
   // function when user creates drawing
-   p.mouseDragged = function () {
+  p.mouseDragged = function () {
     // p5-wrapper p.mouseX/Y are offset for some reason, so declaring new vars for position 
-    let mouseX = p.mouseX -300;
-    let mouseY = p.mouseY -195;
+    let mouseX = p.mouseX - 300;
+    let mouseY = p.mouseY - 195;
 
     // array to send for socket
     let mousePosition = [mouseX, mouseY];
@@ -45,7 +58,7 @@ export default function sketch (p) {
     socket.emit('mouse', mousePosition);
     // draw line with current x/y 
     drawLine(mouseX, mouseY);
-   };
-};
+  };
+}
 
 
