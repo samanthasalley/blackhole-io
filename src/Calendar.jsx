@@ -1,7 +1,7 @@
 import React from 'react';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Canvas from './Canvas.jsx';
+//import Canvas from './Canvas.jsx';
 import Paper from 'material-ui/Paper';
 import {grey300, purple50} from 'material-ui/styles/colors';
 
