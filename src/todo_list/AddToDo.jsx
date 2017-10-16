@@ -17,5 +17,3 @@ const AddToDo = ({ addTask }) => {
 };
 
 export default AddToDo;
-
-
