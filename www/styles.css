@@ -3,7 +3,7 @@ body{
   /* background: url("http://publicsf.com/wp/wp-content/uploads/2016/05/18446-carina-nebula-1920x1200-space-wallpaper-1-1-1200x750.jpg"); */
   background-size: cover;
   /* background-position:center; */
-  /* opacity: 0.2; 
+  /* opacity: 0.2;
   z-index: -1;
   width: 100%; */
 }
@@ -47,8 +47,6 @@ body{
   width: 501px;
   top: 10%;
   left: 40%;
-  background-image: url("http://i701.photobucket.com/albums/ww15/szmoon/stardust-logo_zpsxfhbtji6.jpg");
+  background-image: url("/stardust-logo.jpg");
   z-index: -1;
 }
-
-

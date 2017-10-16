@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
@@ -10,10 +11,10 @@ import List from 'material-ui/svg-icons/action/list';
 import Cal from 'material-ui/svg-icons/action/date-range';
 
 class Cluster extends React.Component {
-  constructor() {
-    super();
-
-  }
+  // constructor() {
+  //   super();
+  //
+  // }
 
   render() {
 
@@ -37,14 +38,14 @@ class Cluster extends React.Component {
     backgroundColor: purple50
   }
 
-   
+
     return (
       // <div id="clusterWrapper">
         <Paper style={clusterStyle} zDepth={5}>
         <nav>
           <ul>
           <Paper style={linkStyle} zDepth={1}>
-            <Link to='/InfiniteSpace'><Create/></Link>
+            <Link to='/inf_space/InfiniteSpace'><Create/></Link>
           </Paper>
           <br></br>
           <Paper style={linkStyle} zDepth={1}>
@@ -52,7 +53,7 @@ class Cluster extends React.Component {
           </Paper>
           <br></br>
           <Paper style={linkStyle} zDepth={1}>
-            <Link to='/tms'><List/></Link>
+            <Link to='/todo_list/tms'><List/></Link>
           </Paper>
           </ul>
         </nav>
