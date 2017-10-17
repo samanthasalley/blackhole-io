@@ -47,10 +47,7 @@ body{
   width: 501px;
   top: 10%;
   left: 40%;
-<<<<<<< HEAD
   background-image: url("stardust-logo.jpg");
-=======
   background-image: url("/stardust-logo.jpg");
->>>>>>> 64c140b6dbf0e85f46ec94f176504f5c7be45236
   z-index: -1;
 }
