@@ -16,11 +16,14 @@ app.use(webpackDevMiddleware(compiler, {
   stats: {
     colors: true,
   },
-  historyApiFallback: true,
+  devServer: {historyApiFallback: true},
 }));
 
 app.use(express.static(__dirname + '/www'));
 app.use('/api', routes);
+app.get('/*', function(req, res) {
+  res.sendfile('./www/index.html');
+});
 
 const server = app.listen(3000, function () {
   const host = server.address().address;
