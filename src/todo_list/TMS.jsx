@@ -1,6 +1,6 @@
 import React from 'react';
 import ToDoList from './ToDoList.jsx';
-import AddToDo from './AddToDo.jsx';
+import NewTaskForm from './NewTaskForm.jsx';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -12,13 +12,20 @@ import ArtyomCommandsManager from './speech_recognition/ArtyomCommands.js';
 
 const Jeeves = new Artyom();
 
+const newTask = {
+  name: '',
+  type: '',
+  date: {}
+};
+
 class TMS extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // main state
       data: [],
-      newTask: '',
+      newTask: Object.assign(newTask),
+      taskTypes: ['Todo', 'Reminder', 'Note'],
       // speech rec state
       jeevesActive: false
     };
@@ -27,7 +34,7 @@ class TMS extends React.Component {
     this.addTask = this.addTask.bind(this);
     this.updateData = this.updateData.bind(this);
     this.removeTask = this.removeTask.bind(this);
-    this.handleNewTaskChange = this.handleNewTaskChange.bind(this);
+    this.handleNewTaskInputChange = this.handleNewTaskInputChange.bind(this);
 
     // speech recognition functions
     this.stopJeeves = this.stopJeeves.bind(this);
@@ -46,11 +53,13 @@ class TMS extends React.Component {
       .catch(err => console.log('Error getting todos'));
   }
 
-  handleNewTaskChange(ev) {
+  handleNewTaskInputChange(ev) {
     let target = ev.target;
     let name = target.name;
     let value = target.value;
-    this.setState({newTask: value});
+    let newTask = Object.assign(this.state.newTask);
+      newTask[name] = value;
+    this.setState({newTask: newTask});
   }
 
   addTask() {
@@ -148,7 +157,7 @@ class TMS extends React.Component {
             tasks={this.state.data}
             remove={this.removeTask}
           />
-          <AddToDo newTask={this.state.newTask} addTask={this.addTask} handleNewTaskChange={this.handleNewTaskChange} />
+          <NewTaskForm newTask={this.state.newTask} addTask={this.addTask} handleNewTaskInputChange={this.handleNewTaskInputChange} />
 
           <IconButton
             onClick={!this.state.jeevesActive ? this.startJeeves : this.stopJeeves}
