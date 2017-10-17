@@ -236,6 +236,5 @@ function newConnection(socket) {
     // console.log(mousePosition);
     mouseXPosArray.push(mousePosition[0]);
     mouseYPosArray.push(mousePosition[1]);
-    console.log(mouseXPosArray, mouseYPosArray);
   }
 }
