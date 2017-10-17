@@ -8,19 +8,16 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'www'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
-      },
-      {
-        test: /\.jsx$/,
+        test: /(\.js|\.jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
     ],
   },
+  devServer: {historyApiFallback: true},
 };
