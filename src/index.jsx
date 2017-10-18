@@ -6,7 +6,7 @@ import Cluster from './Cluster.jsx';
 import InfiniteSpace from './inf_space/InfiniteSpace.jsx';
 import Calendar from './calendar/Calendar.jsx';
 import TMS from './todo_list/TMS.jsx';
-
+import Login from './login.jsx';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div>
         <Cluster />
         <Switch>
+          <Route exact path='/' component={Login} />
           <Route exact path='/space' component={InfiniteSpace} />
           <Route exact path='/calendar' component={Calendar} />
           <Route exact path='/tasks' component={TMS} />

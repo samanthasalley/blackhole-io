@@ -49,6 +49,6 @@ body{
   width: 501px;
   top: 10%;
   left: 40%;
-  background-image: url("./stardust-logo.jpg");
+  /*background-image: url("./stardust-logo.jpg");*/
   z-index: -1;
 }
