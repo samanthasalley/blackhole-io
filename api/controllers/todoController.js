@@ -1,5 +1,7 @@
 const pg = require('pg');
-const uri = 'postgres://zyfrobhu:NL5fpVCjHv9oTkrS-D_8Lz5yLK2kD8qY@stampy.db.elephantsql.com:5432/zyfrobhu';
+const uri = 'postgres://fyunilkq:qGcrNqw4vxpGRBkljsRNqyJ3hrH4x6aN@pellefant.db.elephantsql.com:5432/fyunilkq';
+//postgres://fyunilkq:qGcrNqw4vxpGRBkljsRNqyJ3hrH4x6aN@pellefant.db.elephantsql.com:5432/fyunilkq
+//postgres://zyfrobhu:NL5fpVCjHv9oTkrS-D_8Lz5yLK2kD8qY@stampy.db.elephantsql.com:5432/zyfrobhu
 const todoController = {};
 
 
@@ -22,11 +24,17 @@ todoController.getTodoList = (req, res, next) => {
       return res.status(500).json({ success: false, data: err });
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM "Todo";');
+    const query = client.query('SELECT * FROM "todo";');
     // Stream results back one row at a time
-    query.on('row', (row) => {
-      results = row.item;
+    // query.on('row', (row) => {
+    //   results = row.item;
+    //   console.log(results);
+    // });
+    query.on("row", (row, result) =>{
+        result.addRow(row);
+        console.log("test", result.rows[0].item);
     });
+    
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
@@ -37,8 +45,7 @@ todoController.getTodoList = (req, res, next) => {
 
 todoController.postTodoList = (req, res, next) => {
   let results;
-  const data = req.body.data;
-  console.log(data);
+  const data = req.body.data[0];
   pg.connect(uri, (err, client, done) => {
     if (err) {
       done();
@@ -46,12 +53,12 @@ todoController.postTodoList = (req, res, next) => {
       return res.status(500).json({ success: false, data: err });
     }
 
-    client.query('UPDATE "Todo" SET item = ($2) WHERE _id=($1)',
-      [1, data]);
+    client.query("Insert into todo (item, item_type, date) values ($1, 'note', '2017-10-17')",
+      [data]);
     
-    const query = client.query('SELECT * FROM "Todo";');
-    query.on('row', (row) => {
-      results = row;
+    const query = client.query('SELECT * FROM "todo";');
+    query.on("row", (row, result) =>{
+        result.addRow(row);
     });
     query.on('end', function () {
       done();
