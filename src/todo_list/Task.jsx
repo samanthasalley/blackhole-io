@@ -5,8 +5,18 @@ import {
 } from 'material-ui/Table';
 import FontIcon from 'material-ui/FontIcon';
 
+const styles = {
+  active: {
+    'textDecoration':'none'
+  },
+  closed: {
+    'textDecoration': 'line-through'
+  },
+};
+
 const Task = (props) => {
-  const onClick = () => { props.remove(props.task) };
+  const onClickDelete = () => { props.removeTask(props.task) };
+  const onClickComplete = () => { props.toggleComplete(props.task) };
   const columns = [];
   columns.push(
     <TableRowColumn
@@ -14,23 +24,36 @@ const Task = (props) => {
       style={{ 'textAlign': 'center' }}
     >
       <FontIcon
-        className='fa fa-times'
-        onClick={onClick}
+        className={props.task.status === 'active' ? 'fa fa-check' : 'fa fa-undo'}
+        onClick={onClickComplete}
         style={{ 'cursor': 'pointer', 'color': 'darkgray' }}
       />
     </TableRowColumn>
   );
   Object.keys(props.task).forEach((key, i) => {
-    let item = props.task[key];
-    if(typeof item === 'object' && Object.keys(item).length > 0) item = new Date(item).toISOString;
-    if(typeof item === 'object' && Object.keys(item).length === 0) item = '';
-    columns.push(
-      <TableRowColumn key={i+1}>{item}</TableRowColumn>
-    );
+    if(i < Object.keys(props.task).length - 1){
+      let item = props.task[key];
+      if(item instanceof Date) item = item.getMonth() + 1 + "/" + item.getDate() + "/" + item.getFullYear();
+      columns.push(
+        <TableRowColumn key={i+1}>{item}</TableRowColumn>
+      );
+    }
   });
+  columns.push(
+    <TableRowColumn
+      key={4}
+      style={{ 'textAlign': 'center' }}
+    >
+      <FontIcon
+        className='fa fa-times'
+        onClick={onClickDelete}
+        style={{ 'cursor': 'pointer', 'color': 'darkgray' }}
+      />
+    </TableRowColumn>
+  );
 
   return (
-    <TableRow>
+    <TableRow style={styles[props.task.status]}>
       {columns}
     </TableRow>
   );
