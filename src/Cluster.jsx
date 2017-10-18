@@ -9,6 +9,7 @@ import IconButton from 'material-ui/IconButton';
 import Create from 'material-ui/svg-icons/content/create';
 import List from 'material-ui/svg-icons/action/list';
 import Cal from 'material-ui/svg-icons/action/date-range';
+import Home from 'material-ui/svg-icons/action/home';
 
 class Cluster extends React.Component {
   // constructor() {
@@ -44,8 +45,12 @@ class Cluster extends React.Component {
         <Paper style={clusterStyle} zDepth={5}>
         <nav>
           <ul>
+           <Paper style={linkStyle} zDepth={1}>
+             <Link to='../index'><Home/></Link>
+           </Paper>
+           <br></br>
           <Paper style={linkStyle} zDepth={1}>
-            <Link to='/inf_space/InfiniteSpace'><Create/></Link>
+            <Link to='/space'><Create/></Link>
           </Paper>
           <br></br>
           <Paper style={linkStyle} zDepth={1}>
@@ -53,7 +58,7 @@ class Cluster extends React.Component {
           </Paper>
           <br></br>
           <Paper style={linkStyle} zDepth={1}>
-            <Link to='/todo_list/tms'><List/></Link>
+            <Link to='/tasks'><List/></Link>
           </Paper>
           </ul>
         </nav>
