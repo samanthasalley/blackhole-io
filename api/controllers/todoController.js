@@ -45,7 +45,7 @@ todoController.getTodoList = (req, res, next) => {
 
 todoController.postTodoList = (req, res, next) => {
   let results;
-  const data = req.body.data[0];
+  console.log('data', req.body.data[0].name);
   pg.connect(uri, (err, client, done) => {
     if (err) {
       done();
@@ -53,10 +53,12 @@ todoController.postTodoList = (req, res, next) => {
       return res.status(500).json({ success: false, data: err });
     }
 
-    client.query("Insert into todo (item, item_type, date) values ($1, 'note', '2017-10-17')",
-      [data]);
+    client.query("Insert into todo (item, item_type, date) values (($1), ($2), ($3))",
+      [req.body.data[0].name, req.body.data[0].taskType, req.body.data[0].date]);
     
-    const query = client.query('SELECT * FROM "todo";');
+    //need the id of what was recently added
+
+    const query = client.query('SELECT * FROM "todo" where _id = "";');
     query.on("row", (row, result) =>{
         result.addRow(row);
     });
