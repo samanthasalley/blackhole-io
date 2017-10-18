@@ -1,12 +1,14 @@
 import React from 'react';
-import ToDoList from './ToDoList.jsx';
-import NewTaskForm from './NewTaskForm.jsx';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import { grey300, purple50 } from 'material-ui/styles/colors';
 
-// Speech recognition
+// Main task components
+import TaskSortBar from './TaskSortBar.jsx';
+import TaskList from './TaskList.jsx';
+import NewTaskForm from './NewTaskForm.jsx';
+// Speech recognition components
 import Artyom from 'artyom.js';
 import ArtyomCommandsManager from './speech_recognition/ArtyomCommands.js';
 
@@ -15,7 +17,8 @@ const Jeeves = new Artyom();
 const newTaskTemplate = {
   name: '',
   type: '',
-  date: {}
+  date: {},
+  status: 'active'
 };
 
 const today = new Date();
@@ -24,22 +27,26 @@ const testData = [
   {
     name: 'I\'m a task.',
     type: 'Todo',
-    date: today
+    date: today,
+    status: 'active'
   },
   {
     name: 'Another Task',
     type: 'Todo',
-    date: today
+    date: today,
+    status: 'closed'
   },
   {
     name: 'Ohh, remind me to be awesome',
     type: 'Reminder',
-    date: today
+    date: today,
+    status: 'active'
   },
   {
     name: 'Just a note!',
     type: 'Note',
-    date: {}
+    date: '',
+    status: 'active'
   },
 ]
 
@@ -51,6 +58,15 @@ class TMS extends React.Component {
       tasks: testData,
       newTask: Object.assign(newTaskTemplate),
       taskTypes: ['Todo', 'Reminder', 'Note'],
+      taskStatuses: ['active', 'closed'],
+      sortOptions: [
+        {'name':'Name', 'value':'name'},
+        {'name':'Type', 'value':'type'},
+        {'name':'Due/Reminder Date', 'value':'date'},
+        {'name':'Status', 'value':'status'},
+      ],
+      sortBy: null,
+      showCompleted: false,
       // speech rec state
       jeevesActive: false
     };
@@ -59,9 +75,12 @@ class TMS extends React.Component {
     this.addTask = this.addTask.bind(this);
     this.updateData = this.updateData.bind(this);
     this.removeTask = this.removeTask.bind(this);
+    this.toggleComplete = this.toggleComplete.bind(this);
     this.handleNewTaskDateChange = this.handleNewTaskDateChange.bind(this);
     this.handleNewTaskInputChange = this.handleNewTaskInputChange.bind(this);
     this.handleNewTaskSelectChange = this.handleNewTaskSelectChange.bind(this);
+    this.handleSortOptionsSelectionChange = this.handleSortOptionsSelectionChange.bind(this);
+    this.handleSortOptionsToggleCompletedChange = this.handleSortOptionsToggleCompletedChange.bind(this);
 
     // speech recognition functions
     this.stopJeeves = this.stopJeeves.bind(this);
@@ -105,13 +124,32 @@ class TMS extends React.Component {
     });
   }
 
+  handleSortOptionsSelectionChange(ev, idx, value) {
+    const sortBy = value;
+    this.setState({
+      sortBy: sortBy
+    });
+  }
+
+  handleSortOptionsToggleCompletedChange() {
+    let showCompleted = !this.state.showCompleted;
+    this.setState({showCompleted: showCompleted});
+  }
+
+  toggleComplete(task) {
+    let tasks = this.state.tasks.slice(0);
+    let taskIdx = tasks.indexOf(task);
+    tasks[taskIdx].status = tasks[taskIdx].status === 'active' ? 'closed' : 'active';
+    this.setState({tasks: tasks});
+  }
+
   addTask() {
     // const task = this.state.newTask;
     // console.log(task);
     // const data = [...this.state.data, task];
     // this.setState({ data: data }, this.updateData);
     const newTask = Object.assign(this.state.newTask);
-    if(!newTask.name || !newTask.taskType) return;
+    if (!newTask.name || !newTask.taskType) return;
     const tasks = [...this.state.tasks, newTask];
     this.setState({
       tasks: tasks,
@@ -121,7 +159,7 @@ class TMS extends React.Component {
 
   removeTask(task) {
     console.log(task);
-    let tasks = this.state.tasks;
+    let tasks = this.state.tasks.slice(0);
     tasks.splice(tasks.indexOf(task), 1);
     this.setState({ tasks: tasks }, this.updateData);
   }
@@ -202,11 +240,23 @@ class TMS extends React.Component {
     return (
       <Paper style={tmsStyle} zDepth={5}>
         <div id="TMS">
-          <h1>TO DO LIST</h1>
-          <ToDoList
-            tasks={this.state.tasks}
-            remove={this.removeTask}
+          <h1>TASK MANAGEMENT</h1>
+          <TaskSortBar 
+            sortBy={this.state.sortBy}
+            sortOptions={this.state.sortOptions}
+            showCompleted={this.state.showCompleted}
+            handleSortOptionsSelectionChange={this.handleSortOptionsSelectionChange}
+            handleSortOptionsToggleCompletedChange={this.handleSortOptionsToggleCompletedChange}
           />
+
+          <TaskList
+            tasks={this.state.tasks}
+            sortBy={this.state.sortBy}
+            showCompleted={this.state.showCompleted}
+            removeTask={this.removeTask}
+            toggleComplete={this.toggleComplete}
+          />
+
           <NewTaskForm
             newTask={this.state.newTask}
             taskTypes={this.state.taskTypes}
