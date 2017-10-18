@@ -1,5 +1,5 @@
 body{
-  background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.1)), url("http://publicsf.com/wp/wp-content/uploads/2016/05/18446-carina-nebula-1920x1200-space-wallpaper-1-1-1200x750.jpg");
+  background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.1)), url("./bhole.png");
   /* background: url("http://publicsf.com/wp/wp-content/uploads/2016/05/18446-carina-nebula-1920x1200-space-wallpaper-1-1-1200x750.jpg"); */
   background-size: cover;
   /* background-position:center; */
@@ -40,14 +40,4 @@ body{
 #TMS {
   padding-left: 50px;
   padding-right: 50px;
-}
-
-#logo {
-  position: absolute;
-  height: 501px;
-  width: 501px;
-  top: 10%;
-  left: 40%;
-  background-image: url("./stardust-logo.jpg");
-  z-index: -1;
 }
