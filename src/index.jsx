@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { Link } from 'react-router';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Cluster from './Cluster.jsx';
 import InfiniteSpace from './inf_space/InfiniteSpace.jsx';
@@ -20,11 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     <BrowserRouter>
       <div>
-           <Link to="/login">Login</Link>
-        <Route path='/' component={Cluster} />
-        <Route path='/inf_space/InfiniteSpace' component={InfiniteSpace} />
-        <Route path='/calendar' component={Calendar} />
-        <Route path='/todo_list/tms' component={TMS} />
+        <Cluster />
+        <Switch>
+          <Route exact path='/space' component={InfiniteSpace} />
+          <Route exact path='/calendar' component={Calendar} />
+          <Route exact path='/tasks' component={TMS} />
+        </Switch>
       </div>
     </BrowserRouter>
    </MuiThemeProvider>,

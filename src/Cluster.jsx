@@ -50,7 +50,7 @@ class Cluster extends React.Component {
            </Paper>
            <br></br>
           <Paper style={linkStyle} zDepth={1}>
-            <Link to='/inf_space/InfiniteSpace'><Create/></Link>
+            <Link to='/space'><Create/></Link>
           </Paper>
           <br></br>
           <Paper style={linkStyle} zDepth={1}>
@@ -58,7 +58,7 @@ class Cluster extends React.Component {
           </Paper>
           <br></br>
           <Paper style={linkStyle} zDepth={1}>
-            <Link to='/todo_list/tms'><List/></Link>
+            <Link to='/tasks'><List/></Link>
           </Paper>
           </ul>
         </nav>
