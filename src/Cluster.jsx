@@ -62,7 +62,6 @@ class Cluster extends React.Component {
           </Paper>
           </ul>
         </nav>
-        <div id="logo"></div>
        </Paper>
     )
   }

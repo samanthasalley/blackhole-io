@@ -60,7 +60,9 @@ class Calendar extends React.Component {
             $("#clickEvent").show();
             $('#eventInput').keypress(function(e) {
               if(e.which == 13) {
-                 submitEvent($(eventInput).val(),date.format());
+                 submitEvent($('#eventInput').val(),date.format());
+                 $('#eventInput').val("");
+                 $('#clickEvent').css('display','none');
                }
             })
           }

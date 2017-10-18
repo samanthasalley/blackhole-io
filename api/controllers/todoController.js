@@ -30,11 +30,11 @@ todoController.getTodoList = (req, res, next) => {
     //   results = row.item;
     //   console.log(results);
     // });
-    query.on("row", (row, result) =>{
-        result.addRow(row);
-        console.log("test", result.rows[0].item);
+    query.on("row", (row, result) => {
+      result.addRow(row);
+      console.log("test", result.rows[0].item);
     });
-    
+
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
@@ -53,12 +53,13 @@ todoController.postTodoList = (req, res, next) => {
       return res.status(500).json({ success: false, data: err });
     }
 
-    client.query("Insert into todo (item, item_type, date) values ($1, 'note', '2017-10-17')",
-      [data]);
-    
-    const query = client.query('SELECT * FROM "todo";');
-    query.on("row", (row, result) =>{
-        result.addRow(row);
+    client.query("Insert into todo (item, item_type, date) values (($1), ($2), ($3))",
+      [req.body.data[0].name, req.body.data[0].taskType, req.body.data[0].date]);
+
+    //need the id of what was recently added
+    const query = client.query('SELECT * FROM "todo" where _id = "";');
+    query.on("row", (row, result) => {
+      result.addRow(row);
     });
     query.on('end', function () {
       done();
