@@ -24,17 +24,25 @@ todoController.getTodoList = (req, res, next) => {
       return res.status(500).json({ success: false, data: err });
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM "todo";');
+    const query = client.query('SELECT * FROM todo');
     // Stream results back one row at a time
     // query.on('row', (row) => {
     //   results = row.item;
     //   console.log(results);
     // });
+<<<<<<< HEAD
     query.on("row", (row, result) => {
       result.addRow(row);
       console.log("test", result.rows[0].item);
     });
 
+=======
+    console.log('query', query);
+    query.on("row", (row, result) =>{
+        result.addRow(row);
+        console.log("test", result.rows[0].item);
+    });
+>>>>>>> 74e9caacc2dc949ea578038c3d4d0ca5ba8a581b
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
@@ -44,8 +52,6 @@ todoController.getTodoList = (req, res, next) => {
 }
 
 todoController.postTodoList = (req, res, next) => {
-  let results;
-  const data = req.body.data[0];
   pg.connect(uri, (err, client, done) => {
     if (err) {
       done();
@@ -53,17 +59,11 @@ todoController.postTodoList = (req, res, next) => {
       return res.status(500).json({ success: false, data: err });
     }
 
-    client.query("Insert into todo (item, item_type, date) values (($1), ($2), ($3))",
+    const query = client.query("Insert into todo (item, item_type, date) values (($1), ($2), ($3)) returning _id",
       [req.body.data[0].name, req.body.data[0].taskType, req.body.data[0].date]);
-
-    //need the id of what was recently added
-    const query = client.query('SELECT * FROM "todo" where _id = "";');
-    query.on("row", (row, result) => {
-      result.addRow(row);
-    });
-    query.on('end', function () {
+    query.on('end', function (response) {
       done();
-      return res.json(results);
+      return res.json({id:response.rows[0]._id});
     });
   });
 }
