@@ -16,7 +16,7 @@ const NewTaskForm = (props) => {
           e.preventDefault();
           props.addTask();
         }}
-        style={{'marginLeft': '2%'}}
+        style={{ 'marginLeft': '2%' }}
       >
         <div>
           <TextField
@@ -31,19 +31,19 @@ const NewTaskForm = (props) => {
             name='taskType'
             hintText='new task type...'
             onChange={props.handleNewTaskSelectChange}
-            value={props.newTask.taskType}
+            value={props.newTask.type}
           >
             {taskTypes}
           </SelectField>
 
         </div>
-        {props.newTask.taskType === 'Todo' || props.newTask.taskType === 'Reminder' ? <div>
+        {props.newTask.type === 'Todo' || props.newTask.type === 'Reminder' ? <div>
           <DatePicker
             name='date'
             locale='en-US'
             container='inline'
             mode='landscape'
-            hintText={`add ${props.newTask.taskType} date...`}
+            hintText={`add ${props.newTask.type} date...`}
             value={props.newTask.date instanceof Date ? props.newTask.date : {}}
             onChange={props.handleNewTaskDateChange}
           />
@@ -51,6 +51,15 @@ const NewTaskForm = (props) => {
         <div>
           <IconButton type="submit">
             <FontIcon className='fa fa-plus' />
+          </IconButton>
+          <IconButton
+            onClick={!props.jeevesActive ? props.startJeeves : props.stopJeeves}
+          >
+            <FontIcon
+              className="fa fa-microphone"
+              color={props.jeevesActive ? 'blue' : 'black'}
+              hoverColor={props.jeevesActive ? 'red' : 'blue'}
+            />
           </IconButton>
         </div>
       </form>
