@@ -13,40 +13,44 @@ import Artyom from 'artyom.js';
 import ArtyomCommandsManager from './speech_recognition/ArtyomCommands.js';
 
 const Jeeves = new Artyom();
+const today = new Date();
 
 const newTaskTemplate = {
   name: '',
   type: '',
-  date: {},
+  date: today,
   status: 'active'
 };
 
-const today = new Date();
 
 const testData = [
   {
     name: 'I\'m a task.',
     type: 'Todo',
     date: today,
-    status: 'active'
+    status: 'active',
+    _id: '',
   },
   {
     name: 'Another Task',
     type: 'Todo',
     date: today,
-    status: 'closed'
+    status: 'closed',
+    _id: '',
   },
   {
     name: 'Ohh, remind me to be awesome',
     type: 'Reminder',
     date: today,
-    status: 'active'
+    status: 'active',
+    _id: '',
   },
   {
     name: 'Just a note!',
     type: 'Note',
     date: '',
-    status: 'active'
+    status: 'active',
+    _id: '',
   },
 ]
 
@@ -151,11 +155,24 @@ class TMS extends React.Component {
     // this.setState({ data: data }, this.updateData);
     const newTask = Object.assign({}, this.state.newTask);
     if (!newTask.name || !newTask.type) return;
-    const tasks = [...this.state.tasks, newTask];
-    this.setState({
-      tasks: tasks,
-      newTask: Object.assign(newTaskTemplate)
-    });
+    if(!newTask.date) newTask.date = new Date();
+    newTask.date = newTask.date.toISOString();
+    fetch('/api/todos', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({data:newTask})
+    })
+      .then(res => res.json())
+      .then(res => {
+        newTask._id = res.id;
+        newTask.date = new Date(newTask.date);
+        const tasks = [...this.state.tasks, newTask];
+        this.setState({
+          tasks: tasks,
+          newTask: Object.assign(newTaskTemplate)
+        });
+      })
+      .catch(err => console.log('Error updating todo data', err));
   }
 
   removeTask(task) {

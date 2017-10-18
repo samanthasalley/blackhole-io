@@ -31,7 +31,7 @@ const Task = (props) => {
     </TableRowColumn>
   );
   Object.keys(props.task).forEach((key, i) => {
-    if (i < Object.keys(props.task).length - 1) {
+    if (i < Object.keys(props.task).length - 2) {
       let item = props.task[key];
       if (item instanceof Date) item = item.getMonth() + 1 + "/" + item.getDate() + "/" + item.getFullYear();
       columns.push(

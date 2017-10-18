@@ -52,7 +52,7 @@ todoController.postTodoList = (req, res, next) => {
     }
 
     const query = client.query("Insert into todo (item, item_type, date) values (($1), ($2), ($3)) returning _id",
-      [req.body.data[0].name, req.body.data[0].taskType, req.body.data[0].date]);
+      [req.body.data.name, req.body.data.type, req.body.data.date]);
     query.on('end', function (response) {
       done();
       return res.json({id:response.rows[0]._id});
