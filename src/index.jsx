@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import Cluster from './Cluster.jsx';
 import InfiniteSpace from './inf_space/InfiniteSpace.jsx';
-import Calendar from './Calendar.jsx';
+import Calendar from './calendar/Calendar.jsx';
 import TMS from './todo_list/TMS.jsx';
 
 
