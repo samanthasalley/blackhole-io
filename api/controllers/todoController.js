@@ -30,19 +30,11 @@ todoController.getTodoList = (req, res, next) => {
     //   results = row.item;
     //   console.log(results);
     // });
-<<<<<<< HEAD
-    query.on("row", (row, result) => {
-      result.addRow(row);
-      console.log("test", result.rows[0].item);
-    });
-
-=======
     console.log('query', query);
     query.on("row", (row, result) =>{
         result.addRow(row);
         console.log("test", result.rows[0].item);
     });
->>>>>>> 74e9caacc2dc949ea578038c3d4d0ca5ba8a581b
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
