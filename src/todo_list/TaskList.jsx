@@ -16,7 +16,7 @@ const TaskList = ({ tasks, sortBy, showCompleted, removeTask, toggleComplete }) 
     taskItems = taskItems.sort((a, b) => {
       switch (sortBy) {
         case 'date':
-          return new Date(b.date) - new Date(a.date);
+          return new Date(a.date) - new Date(b.date);
           break;
         default:
           return (a[sortBy] < b[sortBy] ? -1 : (a[sortBy] > b[sortBy] ? 1 : 0));

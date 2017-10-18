@@ -59,7 +59,7 @@ class TMS extends React.Component {
     super(props);
     this.state = {
       // main state
-      tasks: testData,
+      tasks: [],
       newTask: Object.assign(newTaskTemplate),
       taskTypes: ['Todo', 'Reminder', 'Note'],
       taskStatuses: ['active', 'closed'],
@@ -77,7 +77,7 @@ class TMS extends React.Component {
 
     // general task functions
     this.addTask = this.addTask.bind(this);
-    this.updateData = this.updateData.bind(this);
+    this.updateTask = this.updateTask.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.toggleComplete = this.toggleComplete.bind(this);
     this.handleNewTaskDateChange = this.handleNewTaskDateChange.bind(this);
@@ -97,12 +97,15 @@ class TMS extends React.Component {
     CommandsManager.loadCommands();
   }
 
-  // componentWillMount() {
-  //   fetch('/api/todos')
-  //     .then(response => response.json())
-  //     .then(data => this.setState({ data: data }))
-  //     .catch(err => console.log('Error getting todos'));
-  // }
+  componentWillMount() {
+    fetch('/api/todos')
+      .then(response => response.json())
+      .then(data => {
+        const tasks = data.rows.map(task => ({ 'name': task.item, 'type': task.item_type, 'date': new Date(task.date), 'status': task.status, '_id': task._id }));
+        this.setState({ tasks: tasks });
+      })
+      .catch(err => console.log('Error getting todos', err));
+  }
 
   handleNewTaskDateChange(ev, date) {
     const newTask = Object.assign({}, this.state.newTask);
@@ -145,22 +148,19 @@ class TMS extends React.Component {
     let tasks = this.state.tasks.slice(0);
     let taskIdx = tasks.indexOf(task);
     tasks[taskIdx].status = tasks[taskIdx].status === 'active' ? 'closed' : 'active';
+    // setTimeout(() => this.updateTask(task), 100);
     this.setState({ tasks: tasks });
   }
 
   addTask() {
-    // const task = this.state.newTask;
-    // console.log(task);
-    // const data = [...this.state.data, task];
-    // this.setState({ data: data }, this.updateData);
     const newTask = Object.assign({}, this.state.newTask);
     if (!newTask.name || !newTask.type) return;
-    if(!newTask.date) newTask.date = new Date();
+    if (!newTask.date) newTask.date = new Date();
     newTask.date = newTask.date.toISOString();
     fetch('/api/todos', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({data:newTask})
+      body: JSON.stringify({ data: newTask })
     })
       .then(res => res.json())
       .then(res => {
@@ -175,23 +175,30 @@ class TMS extends React.Component {
       .catch(err => console.log('Error updating todo data', err));
   }
 
+  updateTask(updatedTask) {
+    console.log('ready to update task in db', updatedTask);
+    fetch(`/api/todos/${updatedTask._id}`, {
+      method: "PUT",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: updatedTask.status })
+    })
+      .then(res => res.json())
+      .then(res =>  console.log('updated task status in db', res))
+      .catch(err => console.log('Error updating todo in db', err));
+  }
+
   removeTask(task) {
     console.log(task);
     let tasks = this.state.tasks.slice(0);
-    tasks.splice(tasks.indexOf(task), 1);
-    this.setState({ tasks: tasks }, this.updateData);
-  }
-
-  updateData() {
-    let data = this.state;
-    console.log(data);
-    fetch('/api/todos', {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+    let taskIdx = tasks.indexOf(task);
+    let removedTask = tasks[taskIdx];
+    tasks.splice(tasks[taskIdx], 1);
+    fetch(`/api/todos/${removedTask._id}`, {
+      method: "DELETE"
     })
-      .then(() => this.setState({ newTask: Object.assign(newTaskTemplate) }))
-      .catch(err => console.log('Error updating todo data', err));
+      .then(res => res.json())
+      .then(res => this.setState({ tasks: tasks }))
+      .catch(err => console.log('Error deleting todo in db', err));
   }
 
   /**
