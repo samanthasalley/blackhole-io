@@ -75,7 +75,10 @@ class Calendar extends React.Component {
             },
             success: function(){
                 console.log("success!");
-            }
+            },
+        },
+        eventClick: function(event){
+          $('#calendar').fullCalendar('removeEvents',event._id);
         },
         //events: event_array,
   			editable: true,
