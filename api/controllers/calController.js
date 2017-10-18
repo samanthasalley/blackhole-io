@@ -5,38 +5,55 @@ const calController = {};
 // /api/cal output in the form of
 /*
 [
-  {
-      "_id": 1,
-      "month": 10,
-      "day": 1,
-      "events": ""
-  },
-  {
-      "_id": 2,
-      "month": 10,
-      "day": 2,
-      "events": ""
-  },
-  [...]
+{
+"_id": 1,
+"start": "YYYY-MM-DD",
+"end": "YYYY-MM-DD", - accepts nulls
+"title": ""
+},
+{
+"_id": 2,
+"start": "YYYY-MM-DD",
+"end": "YYYY-MM-DD", - accepts nulls
+"title": ""
+},
+[...]
 ]
 */
+
 calController.getCalEvents = (req, res, next) => {
-  const results = [];
   pg.connect(uri, (err, client, done) => {
     if (err) {
       done();
       console.log(err);
       return res.status(500).json({ success: false, data: err });
     }
-    const query = client.query('SELECT * FROM "Cal";');
-    query.on('row', (row) => {
-      results.push(row);
-    });
+    const query = client.query('SELECT * FROM cal;');
+    const results = query._result.rows;
     query.on('end', () => {
       done();
       return res.json(results);
     });
   });
 }
+
+calController.addCalEvent = (req, res, next) => {
+  const start = req.body.start;
+  const title = req.body.title;
+  console.log("REQUEST BODY start: ", start, "title: ", title)
+  pg.connect(uri, (err, client, done) => {
+    if (err) {
+      done();
+      console.log("Error: ", err);
+      return res.status(500).json({ success: false, data: err });
+    }
+    const query = client.query(`INSERT INTO cal (start, title) VALUES ('${start}', '${title}');`);
+    query.on('end', () => {
+      done();
+      return res.json(query);
+    });
+  });
+}
+
 
 module.exports = calController;

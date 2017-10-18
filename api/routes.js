@@ -10,6 +10,7 @@ const spaceController = require('./controllers/spaceController');
 router.get('/todos', todoController.getTodoList);
 router.post('/todos', todoController.postTodoList);
 router.get('/cal', calController.getCalEvents);
+router.post('/cal', calController.addCalEvent);
 router.get('/space', spaceController.getCanvasCoordinates);
 router.post('/update/space', spaceController.updateCanvasCoordinates);
 router.post('/clear/space', spaceController.clearCanvasCoordinates);
