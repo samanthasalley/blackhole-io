@@ -1,6 +1,6 @@
 import React from 'react';
 import ToDoList from './ToDoList.jsx';
-import AddToDo from './AddToDo.jsx';
+import NewTaskForm from './NewTaskForm.jsx';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -12,13 +12,45 @@ import ArtyomCommandsManager from './speech_recognition/ArtyomCommands.js';
 
 const Jeeves = new Artyom();
 
+const newTaskTemplate = {
+  name: '',
+  type: '',
+  date: {}
+};
+
+const today = new Date();
+
+const testData = [
+  {
+    name: 'I\'m a task.',
+    type: 'Todo',
+    date: today
+  },
+  {
+    name: 'Another Task',
+    type: 'Todo',
+    date: today
+  },
+  {
+    name: 'Ohh, remind me to be awesome',
+    type: 'Reminder',
+    date: today
+  },
+  {
+    name: 'Just a note!',
+    type: 'Note',
+    date: {}
+  },
+]
+
 class TMS extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // main state
-      data: [],
-      newTask: '',
+      tasks: testData,
+      newTask: Object.assign(newTaskTemplate),
+      taskTypes: ['Todo', 'Reminder', 'Note'],
       // speech rec state
       jeevesActive: false
     };
@@ -27,7 +59,9 @@ class TMS extends React.Component {
     this.addTask = this.addTask.bind(this);
     this.updateData = this.updateData.bind(this);
     this.removeTask = this.removeTask.bind(this);
-    this.handleNewTaskChange = this.handleNewTaskChange.bind(this);
+    this.handleNewTaskDateChange = this.handleNewTaskDateChange.bind(this);
+    this.handleNewTaskInputChange = this.handleNewTaskInputChange.bind(this);
+    this.handleNewTaskSelectChange = this.handleNewTaskSelectChange.bind(this);
 
     // speech recognition functions
     this.stopJeeves = this.stopJeeves.bind(this);
@@ -39,32 +73,57 @@ class TMS extends React.Component {
     CommandsManager.loadCommands();
   }
 
-  componentWillMount() {
-    fetch('/api/todos')
-      .then(response => response.json())
-      .then(data => this.setState({ data: data }))
-      .catch(err => console.log('Error getting todos'));
+  // componentWillMount() {
+  //   fetch('/api/todos')
+  //     .then(response => response.json())
+  //     .then(data => this.setState({ data: data }))
+  //     .catch(err => console.log('Error getting todos'));
+  // }
+
+  handleNewTaskDateChange(ev, date) {
+    const newTask = Object.assign(this.state.newTask);
+    newTask.date = date;
+    this.setState({
+      newTask: newTask
+    });
   }
 
-  handleNewTaskChange(ev) {
+  handleNewTaskInputChange(ev) {
     let target = ev.target;
     let name = target.name;
     let value = target.value;
-    this.setState({newTask: value});
+    let newTask = Object.assign(this.state.newTask);
+    newTask[name] = value;
+    this.setState({ newTask: newTask });
+  }
+
+  handleNewTaskSelectChange(ev, idx, value) {
+    const newTask = Object.assign(this.state.newTask);
+    newTask.taskType = value;
+    this.setState({
+      newTask: newTask
+    });
   }
 
   addTask() {
-    const task = this.state.newTask;
-    console.log(task);
-    const data = [...this.state.data, task];
-    this.setState({ data: data }, this.updateData);
+    // const task = this.state.newTask;
+    // console.log(task);
+    // const data = [...this.state.data, task];
+    // this.setState({ data: data }, this.updateData);
+    const newTask = Object.assign(this.state.newTask);
+    if(!newTask.name || !newTask.taskType) return;
+    const tasks = [...this.state.tasks, newTask];
+    this.setState({
+      tasks: tasks,
+      newTask: Object.assign(newTaskTemplate)
+    });
   }
 
   removeTask(task) {
     console.log(task);
-    let data = this.state.data;
-    data.splice(data.indexOf(task), 1);
-    this.setState({ data: data }, this.updateData);
+    let tasks = this.state.tasks;
+    tasks.splice(tasks.indexOf(task), 1);
+    this.setState({ tasks: tasks }, this.updateData);
   }
 
   updateData() {
@@ -75,8 +134,8 @@ class TMS extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     })
-    .then(() => this.setState({newTask:''}))
-    .catch(err => console.log('Error updating todo data', err));
+      .then(() => this.setState({ newTask: Object.assign(newTaskTemplate) }))
+      .catch(err => console.log('Error updating todo data', err));
   }
 
   /**
@@ -129,7 +188,7 @@ class TMS extends React.Component {
 
   handleNewItem(name) {
     console.log('Ready to create new item: ', name);
-    this.setState({newTask:name}, this.addTask);
+    this.setState({ newTask: name }, this.addTask);
   }
 
   render() {
@@ -145,10 +204,17 @@ class TMS extends React.Component {
         <div id="TMS">
           <h1>TO DO LIST</h1>
           <ToDoList
-            tasks={this.state.data}
+            tasks={this.state.tasks}
             remove={this.removeTask}
           />
-          <AddToDo newTask={this.state.newTask} addTask={this.addTask} handleNewTaskChange={this.handleNewTaskChange} />
+          <NewTaskForm
+            newTask={this.state.newTask}
+            taskTypes={this.state.taskTypes}
+            addTask={this.addTask}
+            handleNewTaskDateChange={this.handleNewTaskDateChange}
+            handleNewTaskInputChange={this.handleNewTaskInputChange}
+            handleNewTaskSelectChange={this.handleNewTaskSelectChange}
+          />
 
           <IconButton
             onClick={!this.state.jeevesActive ? this.startJeeves : this.stopJeeves}
@@ -156,7 +222,7 @@ class TMS extends React.Component {
             <FontIcon
               className="fa fa-microphone"
               color={this.state.jeevesActive ? 'blue' : 'black'}
-              hoverColor={this.state.jeevesActive ? 'gray' : 'blue'}
+              hoverColor={this.state.jeevesActive ? 'gray' : 'red'}
             />
           </IconButton>
 
