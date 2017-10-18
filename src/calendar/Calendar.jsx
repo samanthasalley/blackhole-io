@@ -69,13 +69,16 @@ class Calendar extends React.Component {
 
           ,
           events: {
-            url: '',
+            url: '/api/cal',
             error: function() {
                 console.log('error fetching events');
             },
             success: function(){
-                alert("success!");
-            }
+                console.log("success!");
+            },
+        },
+        eventClick: function(event){
+          $('#calendar').fullCalendar('removeEvents',event._id);
         },
         //events: event_array,
   			editable: true,
