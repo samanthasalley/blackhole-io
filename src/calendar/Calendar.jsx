@@ -69,12 +69,12 @@ class Calendar extends React.Component {
 
           ,
           events: {
-            url: '',
+            url: '/api/cal',
             error: function() {
                 console.log('error fetching events');
             },
             success: function(){
-                alert("success!");
+                console.log("success!");
             }
         },
         //events: event_array,

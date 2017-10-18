@@ -3,7 +3,8 @@ import $ from 'jquery'
 function submitEvent(titleNew, startDate, endDate) {
 
   $.ajax({
-              url: "",
+              type: "POST",
+              url: "/api/cal",
               dataType: 'json',
               data: {
                     title: titleNew,
@@ -20,7 +21,7 @@ function submitEvent(titleNew, startDate, endDate) {
                   }, true);
               },
               error: function () {
-                  alert("err: event was not posted");
+                  console.log("err: event was not posted");
               }
           });
       }
