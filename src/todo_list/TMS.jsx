@@ -60,10 +60,10 @@ class TMS extends React.Component {
       taskTypes: ['Todo', 'Reminder', 'Note'],
       taskStatuses: ['active', 'closed'],
       sortOptions: [
-        {'name':'Name', 'value':'name'},
-        {'name':'Type', 'value':'type'},
-        {'name':'Due/Reminder Date', 'value':'date'},
-        {'name':'Status', 'value':'status'},
+        { 'name': 'Name', 'value': 'name' },
+        { 'name': 'Type', 'value': 'type' },
+        { 'name': 'Due/Reminder Date', 'value': 'date' },
+        { 'name': 'Status', 'value': 'status' },
       ],
       sortBy: null,
       showCompleted: false,
@@ -85,10 +85,11 @@ class TMS extends React.Component {
     // speech recognition functions
     this.stopJeeves = this.stopJeeves.bind(this);
     this.startJeeves = this.startJeeves.bind(this);
-    this.handleNewItem = this.handleNewItem.bind(this);
+    this.handleJeevesNew = this.handleJeevesNew.bind(this);
+    this.handleJeevesDateUpdate = this.handleJeevesDateUpdate.bind(this);
 
     // speech recognition commands
-    let CommandsManager = new ArtyomCommandsManager(Jeeves, { handleNewItem: this.handleNewItem, stopJeeves: this.stopJeeves });
+    let CommandsManager = new ArtyomCommandsManager(Jeeves, { handleJeevesNew: this.handleJeevesNew, handleJeevesDateUpdate: this.handleJeevesDateUpdate, stopJeeves: this.stopJeeves });
     CommandsManager.loadCommands();
   }
 
@@ -100,7 +101,7 @@ class TMS extends React.Component {
   // }
 
   handleNewTaskDateChange(ev, date) {
-    const newTask = Object.assign(this.state.newTask);
+    const newTask = Object.assign({}, this.state.newTask);
     newTask.date = date;
     this.setState({
       newTask: newTask
@@ -111,14 +112,14 @@ class TMS extends React.Component {
     let target = ev.target;
     let name = target.name;
     let value = target.value;
-    let newTask = Object.assign(this.state.newTask);
+    let newTask = Object.assign({}, this.state.newTask);
     newTask[name] = value;
     this.setState({ newTask: newTask });
   }
 
   handleNewTaskSelectChange(ev, idx, value) {
-    const newTask = Object.assign(this.state.newTask);
-    newTask.taskType = value;
+    const newTask = Object.assign({}, this.state.newTask);
+    newTask.type = value;
     this.setState({
       newTask: newTask
     });
@@ -133,14 +134,14 @@ class TMS extends React.Component {
 
   handleSortOptionsToggleCompletedChange() {
     let showCompleted = !this.state.showCompleted;
-    this.setState({showCompleted: showCompleted});
+    this.setState({ showCompleted: showCompleted });
   }
 
   toggleComplete(task) {
     let tasks = this.state.tasks.slice(0);
     let taskIdx = tasks.indexOf(task);
     tasks[taskIdx].status = tasks[taskIdx].status === 'active' ? 'closed' : 'active';
-    this.setState({tasks: tasks});
+    this.setState({ tasks: tasks });
   }
 
   addTask() {
@@ -148,8 +149,8 @@ class TMS extends React.Component {
     // console.log(task);
     // const data = [...this.state.data, task];
     // this.setState({ data: data }, this.updateData);
-    const newTask = Object.assign(this.state.newTask);
-    if (!newTask.name || !newTask.taskType) return;
+    const newTask = Object.assign({}, this.state.newTask);
+    if (!newTask.name || !newTask.type) return;
     const tasks = [...this.state.tasks, newTask];
     this.setState({
       tasks: tasks,
@@ -224,9 +225,19 @@ class TMS extends React.Component {
       });
   }
 
-  handleNewItem(name) {
-    console.log('Ready to create new item: ', name);
-    this.setState({ newTask: name }, this.addTask);
+  handleJeevesNew(type, name) {
+    console.log('Ready to create new,', type, 'called', name);
+    let newTask = Object.assign({}, this.state.newTask);
+    newTask.name = name;
+    newTask.type = type;
+    this.setState({ newTask: newTask });
+  }
+
+  handleJeevesDateUpdate(date) {
+    console.log('Ready to update date to', date);
+    let newTask = Object.assign({}, this.state.newTask);
+    newTask.date = new Date(date);
+    this.setState({ newTask: newTask });
   }
 
   render() {
@@ -241,7 +252,7 @@ class TMS extends React.Component {
       <Paper style={tmsStyle} zDepth={5}>
         <div id="TMS">
           <h1>TASK MANAGEMENT</h1>
-          <TaskSortBar 
+          <TaskSortBar
             sortBy={this.state.sortBy}
             sortOptions={this.state.sortOptions}
             showCompleted={this.state.showCompleted}
@@ -264,17 +275,11 @@ class TMS extends React.Component {
             handleNewTaskDateChange={this.handleNewTaskDateChange}
             handleNewTaskInputChange={this.handleNewTaskInputChange}
             handleNewTaskSelectChange={this.handleNewTaskSelectChange}
-          />
 
-          <IconButton
-            onClick={!this.state.jeevesActive ? this.startJeeves : this.stopJeeves}
-          >
-            <FontIcon
-              className="fa fa-microphone"
-              color={this.state.jeevesActive ? 'blue' : 'black'}
-              hoverColor={this.state.jeevesActive ? 'gray' : 'red'}
-            />
-          </IconButton>
+            jeevesActive={this.state.jeevesActive}
+            stopJeeves={this.stopJeeves}
+            startJeeves={this.startJeeves}
+          />
 
         </div>
       </Paper>

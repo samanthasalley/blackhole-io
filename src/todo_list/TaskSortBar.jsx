@@ -10,23 +10,25 @@ const TaskSortBar = (props) => {
   return (
     <div>
       <h3>Sort/Filter Options: </h3>
-      <SelectField
-        name='taskType'
-        hintText='Select sort field...'
-        floatingLabelText='Sort Tasks By:'
-        /* floatingLabelStyle={{ 'color': 'black' }} */
-        onChange={props.handleSortOptionsSelectionChange}
-        value={props.sortBy}
-        style={{'marginLeft':'2%'}}
-      >
-        <MenuItem key={0} value={null} primaryText='' />
-        {sortOptions}
-      </SelectField>
-      <Toggle 
-        label='Show completed tasks:'
-        toggled={props.showCompleted}
-        onToggle={props.handleSortOptionsToggleCompletedChange}
-      />
+      <div style={{ 'marginLeft': '2%', 'width': '50%' }}>
+        <SelectField
+          name='taskType'
+          hintText='select column...'
+          floatingLabelText='Sort Tasks By:'
+          floatingLabelFixed={true}
+          floatingLabelStyle={{ 'color': 'black', 'fontSize': '1.3em' }}
+          onChange={props.handleSortOptionsSelectionChange}
+          value={props.sortBy}
+        >
+          <MenuItem key={0} value={null} primaryText='' />
+          {sortOptions}
+        </SelectField>
+        <Toggle
+          label='Show completed tasks:'
+          toggled={props.showCompleted}
+          onToggle={props.handleSortOptionsToggleCompletedChange}
+        />
+      </div>
     </div>
   );
 };

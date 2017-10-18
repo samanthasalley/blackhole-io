@@ -7,7 +7,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 const styles = {
   active: {
-    'textDecoration':'none'
+    'textDecoration': 'none'
   },
   closed: {
     'textDecoration': 'line-through'
@@ -31,11 +31,16 @@ const Task = (props) => {
     </TableRowColumn>
   );
   Object.keys(props.task).forEach((key, i) => {
-    if(i < Object.keys(props.task).length - 1){
+    if (i < Object.keys(props.task).length - 1) {
       let item = props.task[key];
-      if(item instanceof Date) item = item.getMonth() + 1 + "/" + item.getDate() + "/" + item.getFullYear();
+      if (item instanceof Date) item = item.getMonth() + 1 + "/" + item.getDate() + "/" + item.getFullYear();
       columns.push(
-        <TableRowColumn key={i+1}>{item}</TableRowColumn>
+        <TableRowColumn
+          key={i + 1}
+          style={{ 'whiteSpace': 'normal', 'wordWrap': 'break-word' }}
+        >
+          {item}
+        </TableRowColumn>
       );
     }
   });
